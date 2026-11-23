@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniCafe – Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#2f3b35;--accent:#c8a165;--bg:#f7f3ee;--card:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,sans-serif;background:var(--bg);color:var(--dark)}
+header{background:var(--dark);color:#fff;text-align:center;padding:40px 20px 30px}
+.logo{width:90px;height:90px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:40px}
+header h1{font-size:2.6rem;font-weight:800;letter-spacing:3px}
+header p{opacity:.8}
+.special{display:inline-block;margin-top:16px;background:var(--accent);color:var(--dark);padding:8px 18px;border-radius:30px;font-weight:600}
+nav{position:sticky;top:0;background:#fff;display:flex;gap:8px;overflow-x:auto;padding:12px;box-shadow:0 2px 8px #0001;z-index:10}
+nav button{border:1px solid var(--dark);background:none;color:var(--dark);padding:6px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;font-family:inherit}
+nav button.active,nav button:hover{background:var(--dark);color:#fff}
+main{max-width:1100px;margin:30px auto;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.card{background:var(--card);border-radius:16px;padding:22px;box-shadow:0 4px 14px #0000000d}
+.card h2{font-size:1.25rem;margin-bottom:12px;border-bottom:2px solid var(--accent);padding-bottom:6px}
+.item{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #ddd;font-size:.95rem}
+.item:last-child{border:none}
+.price{font-weight:600;color:#8a6a3a;white-space:nowrap;margin-left:10px}
+.hidden{display:none}
+footer{text-align:center;padding:30px;color:#777;font-size:.85rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">☕</div>
+  <h1>UNICAFE</h1>
+  <p>University Café Menu · Prices in LBP</p>
+  <div class="special">✨ Special Drink: Mixed Berries Lemonade</div>
+</header>
+<nav id="nav"></nav>
+<main id="menu"></main>
+<footer>© UniCafe – Enjoy your coffee!</footer>
+<script>
+const menu={
+"Hot Drinks":[["Latte",400000],["Cappuccino",400000],["Spanish Latte",400000],["Flat White",400000],["Caramel Macchiato",400000],["Mocha",400000],["White Chocolate",400000],["Hot Chocolate",400000],["Matcha Latte",400000]],
+"Iced Drinks":[["Iced Latte",400000],["Iced Spanish Latte",400000],["Iced Mocha",400000],["Iced White Mocha",400000],["Iced Vanilla Latte",400000],["Iced Caramel Latte",400000],["Iced Caramel Macchiato",400000],["Iced Matcha Latte",400000]],
+"Frappe":[["Coffee Frappe",400000],["Caramel Frappe",400000],["Mocha Frappe",400000],["Vanilla Frappe",400000],["White Mocha Frappe",400000],["Matcha Frappe",400000]],
+"Milkshake":[["Caramel Milkshake",400000],["Vanilla Milkshake",400000],["Chocolate Milkshake",400000],["Strawberry Milkshake",400000],["Lotus Milkshake",400000],["Oreo Milkshake",400000]],
+"Smoothies":[["Strawberry",350000],["Mango",350000],["Mix Berries",350000]],
+"Cold Refreshments":[["Water",50000],["Soft Drinks",100000],["Ice",50000]],
+"Coffee Espresso":[["Single Espresso",100000],["Double Espresso",150000],["Americano Espresso",300000]],
+"Tea":[["Tea Zhorat",100000],["Peach Ice Tea",400000]],
+"Breakfast":[["Croissant",100000],["Zaatar Saj",90000],["Cheese Saj",180000],["Nos Nos Saj",140000],["Chocolate Saj",200000]],
+"Extra Add-ons":[["Extra Shot",50000],["Cream",50000],["Flavour Sauce (Vanilla, Caramel, Chocolate)",50000],["Milk",100000]]
+};
+const fmt=n=>n.toLocaleString('en-US').replace(/,/g,' ');
+const main=document.getElementById('menu'),nav=document.getElementById('nav');
+const cats=["All",...Object.keys(menu)];
+cats.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c;if(!i)b.classList.add('active');
+b.onclick=()=>{nav.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+document.querySelectorAll('.card').forEach(k=>k.classList.toggle('hidden',c!=="All"&&k.dataset.cat!==c))};nav.appendChild(b)});
+for(const [cat,items] of Object.entries(menu)){
+ main.insertAdjacentHTML('beforeend',`<section class="card" data-cat="${cat}"><h2>${cat}</h2>${items.map(([n,p])=>`<div class="item"><span>${n}</span><span class="price">${fmt(p)}</span></div>`).join('')}</section>`);
+}
+</script>
+</body>
+</html>
